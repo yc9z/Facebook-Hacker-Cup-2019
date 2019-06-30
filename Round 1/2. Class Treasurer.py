@@ -6,7 +6,7 @@ def pay(MOD, n, k, votes):
     pre = 0 if votes[-1] == 'A' else 1
     
     if k == 0 and pre == 1:
-        money += pow(2,i+1,MOD)
+        money += pow(2,n,MOD)
         pre = 0
     
     for i in range(n-2,-1,-1):
