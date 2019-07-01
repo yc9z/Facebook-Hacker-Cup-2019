@@ -24,17 +24,7 @@ def draw(points):
                     print((x,y), end = ' ')
         if y in occured_y:
             print(' ')
-
-
-
-"""
-def connect_ver(n,h,v,points):
-    points = [(y,x) for x,y in points]
-    h,v = v,h
-    print(connect_hoz(n,h,v,points))
-    return connect_hoz(n,h,v,points)
-"""
-
+            
 
 def find_points(n,x1,x2,ax,bx,cx,dx,y1,y2,ay,by,cy,dy):
     points = [(x1,y1),(x2,y2)]
@@ -52,17 +42,17 @@ def find_points(n,x1,x2,ax,bx,cx,dx,y1,y2,ay,by,cy,dy):
 def connect_hoz(n,h,v,points):
     if h+v < n: return -1
     
-    # hoz_points is a max heap
-    _, _, hoz_points, ver_cost = find_most_hoz_points(n,h,points)
-    #print(hoz_points,ver_cost)
+    hoz_points, ver_cost = find_most_hoz_points(n,h,points)
+
     cost = float('inf')
     ver_num = n-len(hoz_points)
 
     while hoz_points and ver_num <= v:
         x, y = hoz_points.pop()
+        
         if cost > ver_cost + x:
             cost = ver_cost + x
-            #print(cost, hoz_points, ver_cost)
+            
         ver_cost = max(ver_cost, y)
         ver_num += 1
 
@@ -92,7 +82,6 @@ def connect_hoz(n,h,v,points):
         
             if cost > ver_cost + x1:
                 cost = ver_cost + x1
-                #print(cost, hoz_points, ver_cost)
         else:
             break
 
@@ -101,16 +90,6 @@ def connect_hoz(n,h,v,points):
 
 def find_most_hoz_points(n,h,points):
     height = 0
-    reduced_points = []
-    """
-    
-    for i in range(n-1,-1,-1):
-        x, y = points[i]
-        if height < y:
-            height = y
-            reduced_points = [(x,y)] + reduced_points
-    n = len(reduced_points)
-    """
     ver_cost = 0
     
 
@@ -118,7 +97,7 @@ def find_most_hoz_points(n,h,points):
     
     ver_cost = max([y for _,y in points[h:]]+[0])
 
-    return n, reduced_points, hoz_points, ver_cost
+    return hoz_points, ver_cost
 
 
 t = int(input())
@@ -127,8 +106,8 @@ for i in range(t):
     x1, x2, ax, bx, cx, dx = [int(s) for s in input().split(' ')]
     y1, y2, ay, by, cy, dy = [int(s) for s in input().split(' ')]
     points = find_points(n,x1,x2,ax,bx,cx,dx,y1,y2,ay,by,cy,dy)
-    #print(points)
     points = sorted(points)
-    #draw(points)
+    # draw(points)
     ans = connect_hoz(n,h,v,points)
     print('Case #{}: {}'.format(i+1, ans))
+
